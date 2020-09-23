@@ -1,25 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { createContext, useState } from 'react';
 import './App.css';
 
+
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
+import Home from './Components/Home/Home';
+export const userContext = createContext();
+
 function App() {
+  const [loggedInUser,setLoggedInUser] = useState({
+    name:'',
+    password:'',
+    email:'',
+    error:'',
+    success:true,
+    formValid:true
+  });
+  const [locationInfo,setLocationInfo] = useState(0);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <userContext.Provider value ={{loggedUser:[loggedInUser,setLoggedInUser],location:[locationInfo,setLocationInfo]}}>
+    <Router>
+      <Switch>
+        <Route>
+          <Home></Home>
+        </Route>
+      </Switch>
+    </Router>
+    </userContext.Provider>
   );
 }
 
